@@ -7,7 +7,7 @@ class Blockchain {
     }
 
     createGenesis() {
-        return new Block(0, "Genesis block");
+        return new Block(0, '0', "Genesis block");
     }
 
     latestBlock() {
@@ -15,8 +15,7 @@ class Blockchain {
     }
 
     addBlock(data){
-        let newBlock = new Block(this.chain.length, data);
-        newBlock.previousHash = this.latestBlock().hash;
+        let newBlock = new Block(this.chain.length, this.latestBlock().hash, data);
         this.chain.push(newBlock);
     }
 
