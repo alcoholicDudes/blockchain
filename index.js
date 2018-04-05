@@ -1,20 +1,35 @@
 const calculateHash = require('./hash.js');
+const Block = require('./block.js');
 
-class Block {
-    constructor(timestamp, data) {
-        this.index = 0;
-        this.timestamp = timestamp;
-        this.data = data;
-        this.previousHash = "0";
-        this.hash = this.calculateHash();
-        this.nonce = 0;
+class Blockchain {
+    constructor() {
+        this.chain = [this.createGenesis()];
     }
 
-    calculateHash() {
-        return calculateHash.getSHA256(this.index + this.previousHash + this.timestamp + this.data + this.nonce);
+    createGenesis() {
+        return new Block(0, "Genesis block");
     }
 
-    mineBlock(difficulty) {
+    latestBlock() {
+        return this.chain[this.chain.length - 1];
+    }
 
+    addBlock(data){
+        let newBlock = new Block(this.chain.length, data);
+        newBlock.previousHash = this.latestBlock().hash;
+        this.chain.push(newBlock);
+    }
+
+    isValid() {
+        // Skipping genesis block
+        for(let i = 1; i < this.chain.length - 1; i++) {
+            const currentBlock = this.chain[i];
+            const previousBlock = this.chain[i - 1];
+
+            if (currentBlock.previousHash !== previousBlock.calculateHash()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
