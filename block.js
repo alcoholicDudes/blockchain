@@ -11,7 +11,6 @@ class Block {
     }
 
     calculateHash() {
-        console.log('Calculating hash for- ', this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce);
         return calculateHash.getSHA256(this.index + this.previousHash + this.timestamp + this.data + this.nonce);
     }
 

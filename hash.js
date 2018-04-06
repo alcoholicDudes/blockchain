@@ -2,7 +2,7 @@ const hash = (() => {
     const crypto = require('crypto');
 
     let getSHA256 = data => {
-        return crypto.createHash('sha256').update(data).digest('hex')
+        return crypto.createHash('sha256').update(data).digest('hex');
     };
 
     return {
